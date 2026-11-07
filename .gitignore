@@ -1,0 +1,15 @@
+# Datos del Data Lake Local
+data_lake_files/*
+!data_lake_files/.gitkeep
+
+# Archivos de compilación de Java
+**/target/
+**.class
+
+# Configuraciones de IDEs
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.DS_Store

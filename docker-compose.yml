@@ -1,0 +1,30 @@
+services:
+  # El simulador de Azure Data Lake / Blob Storage
+  azure-storage:
+    image: mcr.microsoft.com/azure-storage/azurite
+    platform: linux/amd64
+    container_name: azure_lake_storage
+    ports:
+      - "10000:10000"   # Puerto para el servicio de Java
+    volumes:
+      - ./data:/data    # Mapea tus carpetas locales
+
+  # El motor de consultas
+  trino:
+    image: trinodb/trino:latest
+    platform: linux/amd64
+    container_name: azure_lake_engine
+    ports:
+      - "8081:8081"     # Puerto modificado para evitar choques
+    depends_on:
+      - azure-storage
+
+  # Interfaz gráfica web para el navegador
+  azurite-ui:
+    image: filebrowser/filebrowser:latest
+    container_name: azure_lake_web_ui
+    command: --noauth
+    ports:
+      - "8080:80"
+    volumes:
+      - ./data:/srv
